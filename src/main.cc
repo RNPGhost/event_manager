@@ -1,22 +1,17 @@
 #include "listener.h"
 #include "event_manager.h"
-
 #include <iostream>
 
 int main() {
   Listener<int> int_listener;
   Listener<const char*> string_listener;
   Listener<int> null_listener;
-  EventManager event_manager;
+  EventManager<FOO, int> foo_event_manager;
+  EventManager<BAR, const char*> bar_event_manager;
 
-  const char* message = "Event Message";
-  int number = 43;
+  foo_event_manager.AddListener(&int_listener);
+  bar_event_manager.AddListener(&string_listener);
 
-  event_manager.AddListener(FOO, &int_listener);
-  event_manager.AddListener(BAR, &string_listener);
-  event_manager.AddListener(BAZ, &null_listener);
-
-  event_manager.Trigger(FOO, &number); 
-  event_manager.Trigger(BAR, &message);
-  event_manager.Trigger(BAZ);
+  foo_event_manager.Trigger(43); 
+  bar_event_manager.Trigger("Event message");
 }
